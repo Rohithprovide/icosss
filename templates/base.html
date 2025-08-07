@@ -35,6 +35,20 @@
             resize: none !important;
             height: 50px !important;
             width: 100% !important;
+            position: relative;
+        }
+        
+        .search-container::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4285f4, transparent);
+            opacity: 0.7;
+            border-radius: 1px;
         }
         
         .search-input:focus {
