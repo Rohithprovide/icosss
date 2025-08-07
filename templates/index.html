@@ -1,92 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %}Home - Data Collection App{% endblock %}
+{% block title %}Data Collection App{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10">
-        <!-- Page Header -->
-        <div class="text-center mb-5">
-            <h1 class="display-4 mb-3">
-                <i class="bi bi-input-cursor-text text-primary me-3"></i>
-                Welcome to Data Collection
-            </h1>
-            <p class="lead text-muted">
-                Share your thoughts, feedback, or any information using the form below.
-                Your input is valuable to us!
-            </p>
-        </div>
+    <div class="col-md-6 col-lg-4">
+        <form method="POST" action="{{ url_for('index') }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="mb-3">
+                {{ form.user_input(class="form-control" + (" is-invalid" if form.user_input.errors else ""), placeholder="Enter your data here...") }}
+                {% if form.user_input.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in form.user_input.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
 
-        <!-- Main Form Card -->
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title mb-0">
-                    <i class="bi bi-pencil-square me-2"></i>
-                    Submit Your Data
-                </h3>
+            <div class="d-grid">
+                {{ form.submit(class="btn btn-primary") }}
             </div>
-            <div class="card-body p-4">
-                <form method="POST" action="{{ url_for('index') }}">
-                    {{ form.hidden_tag() }}
-                    
-                    <div class="mb-4">
-                        {{ form.user_input.label(class="form-label fw-bold") }}
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-chat-text"></i>
-                            </span>
-                            {{ form.user_input(class="form-control" + (" is-invalid" if form.user_input.errors else "")) }}
-                        </div>
-                        {% if form.user_input.errors %}
-                            <div class="invalid-feedback d-block">
-                                {% for error in form.user_input.errors %}
-                                    <div>{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                        <div class="form-text">
-                            <i class="bi bi-info-circle me-1"></i>
-                            Maximum 500 characters. Share anything you'd like!
-                        </div>
-                    </div>
-
-                    <div class="d-grid gap-2">
-                        {{ form.submit(class="btn btn-primary btn-lg") }}
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Feature Info -->
-        <div class="row mt-5">
-            <div class="col-md-4 text-center mb-4">
-                <div class="card h-100 border-0">
-                    <div class="card-body">
-                        <i class="bi bi-shield-check text-success display-5 mb-3"></i>
-                        <h5 class="card-title">Secure</h5>
-                        <p class="card-text text-muted">Your data is handled securely with proper validation and error handling.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 text-center mb-4">
-                <div class="card h-100 border-0">
-                    <div class="card-body">
-                        <i class="bi bi-lightning-charge text-warning display-5 mb-3"></i>
-                        <h5 class="card-title">Fast</h5>
-                        <p class="card-text text-muted">Quick submission with instant feedback and responsive design.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 text-center mb-4">
-                <div class="card h-100 border-0">
-                    <div class="card-body">
-                        <i class="bi bi-phone text-info display-5 mb-3"></i>
-                        <h5 class="card-title">Mobile-Friendly</h5>
-                        <p class="card-text text-muted">Works perfectly on all devices with responsive Bootstrap design.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}
