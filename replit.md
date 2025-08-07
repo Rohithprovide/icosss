@@ -8,6 +8,7 @@ A simple Flask web application for collecting and displaying user data through a
 
 Preferred communication style: Simple, everyday language.
 Logo positioning: Prefers logo closer to search bar interface.
+Icons: Prefers Font Awesome icons over SVG icons (specifically fa-magnifying-glass for search).
 
 ## System Architecture
 
@@ -44,8 +45,8 @@ Logo positioning: Prefers logo closer to search bar interface.
 - **WTForms**: Form validation and rendering
 
 ### Frontend Libraries
-- **Bootstrap 5**: CSS framework via Replit-themed CDN
-- **Bootstrap Icons**: Icon library for UI enhancement
+- **Bootstrap 5**: CSS framework via CDN
+- **Font Awesome 6.4.0**: Icon library for UI enhancement (replaced Bootstrap Icons per user preference)
 
 ### Environment Configuration
 - **SESSION_SECRET**: Environment variable for Flask session security (defaults to development key)
@@ -53,3 +54,8 @@ Logo positioning: Prefers logo closer to search bar interface.
 ### Deployment Considerations
 - **Host Configuration**: Configured to run on 0.0.0.0:5000 for container deployment
 - **Debug Mode**: Enabled for development with detailed error logging
+- **Migration Status**: Successfully migrated from Replit Agent to Replit environment (August 2025)
+  - Fixed CSRF security configuration
+  - Resolved LSP compatibility issues
+  - Updated error handling for better robustness
+  - Integrated Font Awesome for enhanced icon library
