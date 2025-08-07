@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 # Create the Flask app
 app = Flask(__name__)
-app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key-change-in-production")
+app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-change-in-production")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -30,9 +30,10 @@ def index():
     
     # Handle form validation errors
     if form.errors:
-        for field, errors in form.errors.items():
+        for field_name, errors in form.errors.items():
             for error in errors:
-                flash(f'{field.title()}: {error}', 'danger')
+                field_display = field_name.replace("_", " ").title() if field_name else "Field"
+                flash(f'{field_display}: {error}', 'danger')
     
     return render_template('index.html', form=form)
 
