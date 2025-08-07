@@ -7,6 +7,7 @@ A simple Flask web application for collecting and displaying user data through a
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Logo positioning: Prefers logo closer to search bar interface.
 
 ## System Architecture
 
