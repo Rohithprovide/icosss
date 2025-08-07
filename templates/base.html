@@ -29,9 +29,6 @@
         .search-input {
             border-radius: 50px !important;
             border: none !important;
-            border-bottom: 1px solid #4285f4 !important;
-            border-left: 1px solid #4285f4 !important;
-            border-right: 1px solid #4285f4 !important;
             box-shadow: 0 2px 5px 1px rgba(64,60,67,.16) !important;
             padding: 12px 50px !important;
             font-size: 16px;
@@ -40,6 +37,19 @@
             height: 50px !important;
             width: 100% !important;
             position: relative;
+        }
+        
+        .search-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 25px;
+            border: 1px solid #4285f4;
+            border-top: none;
+            border-radius: 0 0 50px 50px;
+            pointer-events: none;
         }
         
         .search-input:focus {
