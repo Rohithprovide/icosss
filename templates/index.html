@@ -18,14 +18,14 @@
                 <div class="autocomplete">
                     <div class="search-container position-relative">
                         <i class="fa-solid fa-magnifying-glass search-icon position-absolute"></i>
-                        {{ form.user_input(class="home-search", placeholder="", autocomplete="off", id="search-bar", name="q") }}
+                        {{ form.q(placeholder="", autocomplete="off", id="search-bar") }}
                         <i class="fa-solid fa-microphone mic-icon position-absolute"></i>
                     </div>
                     <!-- Autocomplete list will be dynamically inserted here -->
                 </div>
-                {% if form.user_input.errors %}
+                {% if form.q.errors %}
                     <div class="invalid-feedback d-block mt-2">
-                        {% for error in form.user_input.errors %}
+                        {% for error in form.q.errors %}
                             {{ error }}
                         {% endfor %}
                     </div>

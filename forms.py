@@ -2,14 +2,13 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 
 class UserDataForm(FlaskForm):
-    """Form for collecting user data input."""
+    """Form for search input."""
     
-    user_input = TextAreaField(
-        'Enter your data',
+    q = StringField(
+        'Search',
         render_kw={
-            'placeholder': 'Type your message here...',
-            'rows': 4,
-            'class': 'form-control'
+            'placeholder': '',
+            'class': 'home-search'
         }
     )
     
