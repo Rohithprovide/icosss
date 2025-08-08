@@ -98,73 +98,61 @@
                 }
             });
             
+            // Popular search suggestions database
+            const suggestions = [
+                'apple', 'amazon', 'android', 'art', 'anime', 'africa', 'australia', 'america',
+                'bitcoin', 'bootstrap', 'business', 'blog', 'books', 'beauty', 'basketball', 'beach',
+                'climate', 'covid', 'cars', 'cats', 'cooking', 'computer', 'culture', 'china',
+                'dogs', 'design', 'data', 'diet', 'dance', 'doctor', 'download', 'disney',
+                'education', 'email', 'exercise', 'europe', 'environment', 'entertainment', 'economy',
+                'facebook', 'fitness', 'food', 'fashion', 'finance', 'football', 'free', 'fun',
+                'google', 'games', 'github', 'guitar', 'golf', 'gym', 'government', 'global',
+                'health', 'home', 'history', 'hotels', 'html', 'happiness', 'holidays', 'help',
+                'instagram', 'internet', 'investment', 'india', 'italy', 'ios', 'iphone', 'ideas',
+                'javascript', 'jobs', 'java', 'japan', 'journey', 'jokes', 'jewelry', 'justice',
+                'korea', 'kitchen', 'kids', 'knowledge', 'kubernetes', 'kindle', 'karate', 'key',
+                'love', 'learn', 'london', 'life', 'language', 'laptop', 'linux', 'library',
+                'music', 'movies', 'money', 'mobile', 'medicine', 'math', 'marketing', 'marvel',
+                'news', 'netflix', 'nature', 'nutrition', 'nodejs', 'network', 'nasa', 'new york',
+                'online', 'ocean', 'office', 'open source', 'olympics', 'outdoor', 'origin', 'order',
+                'python', 'programming', 'pizza', 'photography', 'phone', 'paris', 'pets', 'people',
+                'quotes', 'quantum', 'quality', 'question', 'quiz', 'quick', 'quest', 'queen',
+                'react', 'recipes', 'reading', 'reddit', 'running', 'restaurants', 'research', 'robots',
+                'sports', 'science', 'school', 'software', 'shopping', 'social', 'samsung', 'space',
+                'technology', 'travel', 'twitter', 'tutorials', 'tesla', 'time', 'tips', 'tools',
+                'university', 'usa', 'ubuntu', 'united', 'update', 'upload', 'urban', 'user',
+                'video', 'vacation', 'virtual', 'vision', 'voice', 'vitamins', 'vehicles', 'value',
+                'weather', 'web', 'windows', 'work', 'world', 'writing', 'wifi', 'website',
+                'xbox', 'xcode', 'xml', 'xray', 'xenon', 'xerox', 'xmas', 'xperia',
+                'youtube', 'yoga', 'year', 'young', 'yahoo', 'yellow', 'yummy', 'yesterday',
+                'zoom', 'zero', 'zone', 'zip', 'zombie', 'zodiac', 'zucchini', 'zen'
+            ];
+            
             function fetchSuggestions(query) {
-                console.log('Fetching suggestions for:', query);
-                const script = document.createElement('script');
-                const callbackName = 'ddgCallback_' + Math.random().toString(36).substr(2, 9);
+                const lowerQuery = query.toLowerCase();
+                const matches = suggestions.filter(item => 
+                    item.toLowerCase().startsWith(lowerQuery)
+                ).slice(0, 8);
                 
-                // Set up callback
-                window[callbackName] = function(data) {
-                    console.log('DuckDuckGo response:', data);
-                    if (data && Array.isArray(data) && data.length > 1) {
-                        showSuggestions(data[1]);
-                    } else {
-                        showSuggestions([]);
-                    }
-                    cleanup();
-                };
-                
-                function cleanup() {
-                    try {
-                        if (script.parentNode) {
-                            script.parentNode.removeChild(script);
-                        }
-                    } catch(e) {
-                        console.log('Cleanup error:', e);
-                    }
-                    if (window[callbackName]) {
-                        delete window[callbackName];
-                    }
+                // Also add exact query if it's not already in matches
+                if (!matches.includes(query) && query.length > 0) {
+                    matches.unshift(query);
+                    matches.splice(8); // Keep only 8 items
                 }
                 
-                // Set up error handling
-                script.onerror = function() {
-                    console.log('Script load error');
-                    cleanup();
-                };
-                
-                // Set timeout
-                const timeout = setTimeout(() => {
-                    console.log('Request timeout');
-                    cleanup();
-                }, 5000);
-                
-                // Override cleanup to clear timeout
-                const originalCleanup = cleanup;
-                cleanup = function() {
-                    clearTimeout(timeout);
-                    originalCleanup();
-                };
-                
-                // Make the request
-                script.src = `https://duckduckgo.com/ac/?q=${encodeURIComponent(query)}&callback=${callbackName}`;
-                document.head.appendChild(script);
-                
-                console.log('Script added:', script.src);
+                showSuggestions(matches);
             }
             
             function showSuggestions(suggestions) {
-                console.log('Showing suggestions:', suggestions);
                 dropdown.innerHTML = '';
                 currentFocus = -1;
                 
                 if (!suggestions || suggestions.length === 0) {
-                    console.log('No suggestions to show');
                     hideDropdown();
                     return;
                 }
                 
-                suggestions.slice(0, 8).forEach(function(suggestion) {
+                suggestions.forEach(function(suggestion) {
                     const item = document.createElement('div');
                     item.className = 'autocomplete-item';
                     item.textContent = suggestion;
@@ -178,7 +166,6 @@
                 
                 searchContainer.classList.add('has-suggestions');
                 dropdown.classList.add('show');
-                console.log('Dropdown should be visible now');
             }
             
             function hideDropdown() {
