@@ -11,32 +11,27 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-change-in-production")
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-    """Homepage with input form for user data collection."""
+    """Homepage with search form."""
     form = UserDataForm()
+    return render_template('index.html', form=form)
+
+@app.route('/search', methods=['GET'])
+def search():
+    """Search results page."""
+    query = request.args.get('q', '').strip()
     
-    if form.validate_on_submit():
-        # Get the submitted data
-        user_data = form.user_input.data
-        
-        # Log the received data for debugging
-        app.logger.info(f"Received user data: {user_data}")
-        
-        # Flash success message
-        flash('Data submitted successfully!', 'success')
-        
-        # Redirect back to index page
+    if not query:
+        flash('Please enter a search term.', 'warning')
         return redirect(url_for('index'))
     
-    # Handle form validation errors
-    if form.errors:
-        for field_name, errors in form.errors.items():
-            for error in errors:
-                field_display = field_name.replace("_", " ").title() if field_name else "Field"
-                flash(f'{field_display}: {error}', 'danger')
+    # Log the search query
+    app.logger.info(f"Search query: {query}")
     
-    return render_template('index.html', form=form)
+    # For now, we'll just display the search results page
+    # You can add actual search logic here later
+    return render_template('search_results.html', query=query)
 
 @app.route('/autocomplete', methods=['POST'])
 def autocomplete():

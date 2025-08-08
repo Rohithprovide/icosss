@@ -86,6 +86,7 @@ const updateAutocompleteList = () => {
         // Add click event
         suggestionDiv.addEventListener('click', function() {
             selectSuggestion(suggestion);
+            submitSearch(suggestion);
         });
         
         autocompleteList.appendChild(suggestionDiv);
@@ -136,6 +137,11 @@ const autocompleteInput = (e) => {
             e.preventDefault();
             const suggestion = items[currentFocus].getAttribute('data-suggestion');
             selectSuggestion(suggestion);
+            submitSearch(suggestion);
+        } else {
+            // No autocomplete item selected, submit current search
+            e.preventDefault();
+            submitSearch(searchInput.value.trim());
         }
     } else if (e.key === 'Escape') {
         hideAutocomplete();
@@ -163,6 +169,20 @@ const selectSuggestion = (suggestion) => {
     searchInput.value = suggestion;
     hideAutocomplete();
     searchInput.focus();
+};
+
+const submitSearch = (query) => {
+    if (!query || query.trim() === '') {
+        return;
+    }
+    
+    // Submit the form
+    const form = document.getElementById('search-form');
+    if (form) {
+        // Set the search input value
+        searchInput.value = query.trim();
+        form.submit();
+    }
 };
 
 const hideAutocomplete = () => {

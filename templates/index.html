@@ -11,14 +11,14 @@
         </div>
         
         <!-- Form -->
-        <form method="POST" action="{{ url_for('index') }}">
+        <form method="GET" action="{{ url_for('search') }}" id="search-form">
             {{ form.hidden_tag() }}
             
             <div class="mb-4">
                 <div class="autocomplete">
                     <div class="search-container position-relative">
                         <i class="fa-solid fa-magnifying-glass search-icon position-absolute"></i>
-                        {{ form.user_input(class="home-search", placeholder="", autocomplete="off", id="search-bar") }}
+                        {{ form.user_input(class="home-search", placeholder="", autocomplete="off", id="search-bar", name="q") }}
                         <i class="fa-solid fa-microphone mic-icon position-absolute"></i>
                     </div>
                     <!-- Autocomplete list will be dynamically inserted here -->
