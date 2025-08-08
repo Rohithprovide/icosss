@@ -37,11 +37,12 @@ body {
 }
 
 .home-search:hover {
-    background-image: linear-gradient(to right, transparent 0%, transparent 15%, #1a73e8 20%, #1a73e8 80%, transparent 85%, transparent 100%);
-    background-position: left bottom;
-    background-size: 100% 1px;
+    background-image: linear-gradient(to right, transparent 0%, transparent 10%, #1a73e8 15%, #1a73e8 85%, transparent 90%, transparent 100%);
+    background-position: center bottom;
+    background-size: 100% 2px;
     background-repeat: no-repeat;
     background-color: white;
+    transition: background-image 0s;
 }
 
 .home-search:focus {
