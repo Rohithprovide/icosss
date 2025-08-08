@@ -90,7 +90,7 @@
     line-height: 42px;
     border-radius: 24px !important;
     border-bottom: none !important;
-    padding-right: 40px !important;
+    padding-right: 10px !important;
     background: white !important;
     padding-left: 45px !important;
     text-decoration: none !important;
@@ -104,17 +104,18 @@
     z-index: 1002;
     pointer-events: none;
     position: absolute;
+    font-size: 16px;
 }
 
 .header-search-container .clear-icon {
-    right: 12px;
+    left: 620px;
     top: 50%;
     transform: translateY(-50%);
     color: #9ca3af;
     z-index: 1002;
     cursor: pointer;
     position: absolute;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 44px;
     display: flex;
     align-items: center;
