@@ -2,26 +2,30 @@
 
 .search-header {
     background: white;
-    padding: 20px 0;
+    padding: 0;
     border-bottom: 1px solid #f0f0f0;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
     z-index: 100;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    width: 776px;
+    height: 110px;
+    margin: 0;
+    padding: 0;
 }
 
 .header-content {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
     gap: 20px;
+    height: 100%;
+    padding: 0 15px;
 }
 
 /* Logo in header */
@@ -39,13 +43,26 @@
     text-decoration: none !important;
 }
 
+.header-logo {
+    width: 100px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .header-logo h1 {
     font-family: 'Dancing Script', cursive !important;
-    font-size: 80px !important;
+    font-size: 65px !important;
     margin: 0;
-    line-height: 1;
+    line-height: 80px;
     color: black !important;
     font-weight: 700;
+    width: 100px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Search bar in header */
@@ -84,16 +101,35 @@
     color: #6b7280;
 }
 
+/* Body adjustment for fixed header */
+body {
+    padding-top: 110px;
+}
+
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: 776px) {
+    .header-container {
+        width: 100%;
+        min-width: 320px;
+    }
+    
     .header-content {
         flex-direction: column;
-        text-align: center;
-        gap: 15px;
+        text-align: left;
+        gap: 10px;
+        padding: 10px 15px;
+    }
+    
+    .header-logo {
+        width: 80px;
+        height: 60px;
     }
     
     .header-logo h1 {
-        font-size: 60px !important;
+        font-size: 50px !important;
+        width: 80px;
+        height: 60px;
+        line-height: 60px;
     }
     
     .header-search-form {
@@ -102,17 +138,10 @@
     }
     
     .search-header {
-        padding: 15px 0;
-    }
-}
-
-@media (max-width: 992px) {
-    .header-content {
-        justify-content: center;
-        text-align: center;
+        position: relative;
     }
     
-    .header-search-form {
-        max-width: 400px;
+    body {
+        padding-top: 0;
     }
 }
