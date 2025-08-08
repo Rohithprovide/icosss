@@ -2,14 +2,36 @@ import os
 import logging
 import requests
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
+from werkzeug.middleware.proxy_fix import ProxyFix
 from forms import UserDataForm, SearchResultsForm
 
 # Configure logging for debugging
 logging.basicConfig(level=logging.DEBUG)
 
+
+class Base(DeclarativeBase):
+    pass
+
+
+db = SQLAlchemy(model_class=Base)
+
 # Create the Flask app
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-change-in-production")
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)  # needed for url_for to generate with https
+
+# configure the database, relative to the app instance folder
+database_url = os.environ.get("DATABASE_URL")
+if database_url:
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_recycle": 300,
+        "pool_pre_ping": True,
+    }
+    # initialize the app with the extension, flask-sqlalchemy >= 3.0.x
+    db.init_app(app)
 
 @app.route('/', methods=['GET'])
 def index():
@@ -58,6 +80,14 @@ def autocomplete():
     except Exception as e:
         app.logger.error(f"Autocomplete error: {e}")
         return jsonify([q, []])
+
+# Initialize database tables if database is configured
+if database_url:
+    with app.app_context():
+        # Make sure to import the models here or their tables won't be created
+        import models  # noqa: F401
+        db.create_all()
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
