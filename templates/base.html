@@ -99,72 +99,58 @@
             });
             
             function fetchSuggestions(query) {
-                // Use fetch with CORS for DuckDuckGo API
-                fetch(`https://duckduckgo.com/ac/?q=${encodeURIComponent(query)}&type=list`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(text => {
-                        try {
-                            // DuckDuckGo returns JSONP, we need to extract the JSON
-                            const jsonMatch = text.match(/\[(.*?)\]/s);
-                            if (jsonMatch) {
-                                const data = JSON.parse('[' + jsonMatch[1] + ']');
-                                showSuggestions(data[1] || []);
-                            }
-                        } catch (e) {
-                            console.log('Parse error:', e);
-                            // Fallback: try direct JSON parse
-                            try {
-                                const data = JSON.parse(text);
-                                showSuggestions(data[1] || []);
-                            } catch (e2) {
-                                console.log('Fallback parse error:', e2);
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.log('Fetch error:', error);
-                        // Fallback to JSONP method
-                        fetchWithJSONP(query);
-                    });
-            }
-            
-            function fetchWithJSONP(query) {
+                console.log('Fetching suggestions for:', query);
                 const script = document.createElement('script');
-                const callbackName = 'autocompleteCallback_' + Date.now();
+                const callbackName = 'ddgCallback_' + Math.random().toString(36).substr(2, 9);
                 
+                // Set up callback
                 window[callbackName] = function(data) {
-                    showSuggestions(data[1] || []);
-                    try {
-                        document.head.removeChild(script);
-                    } catch(e) {}
-                    delete window[callbackName];
+                    console.log('DuckDuckGo response:', data);
+                    if (data && Array.isArray(data) && data.length > 1) {
+                        showSuggestions(data[1]);
+                    } else {
+                        showSuggestions([]);
+                    }
+                    cleanup();
                 };
                 
-                script.src = `https://duckduckgo.com/ac/?q=${encodeURIComponent(query)}&type=list&callback=${callbackName}`;
-                document.head.appendChild(script);
-                
-                // Cleanup on error
-                script.onerror = function() {
+                function cleanup() {
                     try {
-                        document.head.removeChild(script);
-                    } catch(e) {}
-                    delete window[callbackName];
-                };
-                
-                // Timeout cleanup
-                setTimeout(() => {
+                        if (script.parentNode) {
+                            script.parentNode.removeChild(script);
+                        }
+                    } catch(e) {
+                        console.log('Cleanup error:', e);
+                    }
                     if (window[callbackName]) {
-                        try {
-                            document.head.removeChild(script);
-                        } catch(e) {}
                         delete window[callbackName];
                     }
-                }, 10000);
+                }
+                
+                // Set up error handling
+                script.onerror = function() {
+                    console.log('Script load error');
+                    cleanup();
+                };
+                
+                // Set timeout
+                const timeout = setTimeout(() => {
+                    console.log('Request timeout');
+                    cleanup();
+                }, 5000);
+                
+                // Override cleanup to clear timeout
+                const originalCleanup = cleanup;
+                cleanup = function() {
+                    clearTimeout(timeout);
+                    originalCleanup();
+                };
+                
+                // Make the request
+                script.src = `https://duckduckgo.com/ac/?q=${encodeURIComponent(query)}&callback=${callbackName}`;
+                document.head.appendChild(script);
+                
+                console.log('Script added:', script.src);
             }
             
             function showSuggestions(suggestions) {
