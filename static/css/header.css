@@ -20,12 +20,13 @@
 
 .header-content {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
     flex-wrap: nowrap;
     height: 100%;
     padding: 15px;
+    gap: 20px;
 }
 
 /* Logo in header */
@@ -69,29 +70,25 @@
 
 /* Search bar in header */
 .header-search-form {
-    align-self: flex-start;
-    max-width: 700px;
-    width: 100%;
+    flex: 0 0 auto;
+    width: 650px;
     margin: 0;
-    margin-top: auto;
 }
 
 .header-search-container {
     position: relative;
-    width: 100%;
-    max-width: 700px;
+    width: 650px;
     height: 44px;
-    margin-bottom: 5px;
+    margin: 0;
 }
 
 .header-search-container .results-search {
-    width: 100% !important;
-    max-width: 700px !important;
+    width: 650px !important;
     height: 44px;
     line-height: 42px;
     border-radius: 24px !important;
     border-bottom: none !important;
-    padding-right: 80px !important;
+    padding-right: 50px !important;
     background: white !important;
     padding-left: 45px !important;
     text-decoration: none !important;
@@ -107,7 +104,7 @@
     position: absolute;
 }
 
-.header-search-container .mic-icon {
+.header-search-container .clear-icon {
     right: 18px;
     top: 50%;
     transform: translateY(-50%);
@@ -115,9 +112,10 @@
     z-index: 1002;
     cursor: pointer;
     position: absolute;
+    font-size: 16px;
 }
 
-.header-search-container .mic-icon:hover {
+.header-search-container .clear-icon:hover {
     color: #6b7280;
 }
 
@@ -138,6 +136,7 @@ body {
         text-align: left;
         gap: 10px;
         padding: 10px 15px;
+        align-items: flex-start;
     }
     
     .header-logo {
@@ -153,8 +152,16 @@ body {
     }
     
     .header-search-form {
-        max-width: 100%;
         width: 100%;
+        max-width: 100%;
+    }
+    
+    .header-search-container {
+        width: 100%;
+    }
+    
+    .header-search-container .results-search {
+        width: 100% !important;
     }
     
     .search-header {

@@ -218,3 +218,13 @@ const hideAutocomplete = () => {
     
     currentFocus = -1;
 };
+
+// Function to clear search results input
+const clearSearchResults = () => {
+    const resultsSearchBar = document.getElementById('search-bar-results');
+    if (resultsSearchBar) {
+        resultsSearchBar.value = '';
+        resultsSearchBar.focus();
+        hideAutocomplete();
+    }
+};
