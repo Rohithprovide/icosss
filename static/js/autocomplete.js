@@ -6,14 +6,22 @@ let debounceTimeout;
 let activeSearchInput = null;
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Only support homepage search bar
+    // Support both search bars
     const homeSearchBar = document.getElementById('search-bar');
+    const resultsSearchBar = document.getElementById('search-bar-results');
     
     if (homeSearchBar) {
         searchInputs.push(homeSearchBar);
         homeSearchBar.addEventListener('input', () => handleUserInput(homeSearchBar));
         homeSearchBar.addEventListener('keydown', autocompleteInput);
         homeSearchBar.addEventListener('focus', () => { activeSearchInput = homeSearchBar; });
+    }
+    
+    if (resultsSearchBar) {
+        searchInputs.push(resultsSearchBar);
+        resultsSearchBar.addEventListener('input', () => handleUserInput(resultsSearchBar));
+        resultsSearchBar.addEventListener('keydown', autocompleteInput);
+        resultsSearchBar.addEventListener('focus', () => { activeSearchInput = resultsSearchBar; });
     }
     
     currentFocus = -1;
@@ -71,8 +79,12 @@ const fetchSuggestions = async (query) => {
 };
 
 const updateAutocompleteList = () => {
+    // Determine which autocomplete list ID to use
+    const isResultsPage = activeSearchInput && activeSearchInput.id === 'search-bar-results';
+    const listId = isResultsPage ? 'autocomplete-list-results' : 'autocomplete-list';
+    
     // Remove existing autocomplete list
-    const existingList = document.getElementById('autocomplete-list');
+    const existingList = document.getElementById(listId);
     if (existingList) {
         existingList.remove();
     }
@@ -82,9 +94,9 @@ const updateAutocompleteList = () => {
         return;
     }
     
-    // Create new autocomplete list
+    // Create new autocomplete list with correct ID
     const autocompleteList = document.createElement('div');
-    autocompleteList.id = 'autocomplete-list';
+    autocompleteList.id = listId;
     
     autocompleteResults.forEach((suggestion, index) => {
         const suggestionDiv = document.createElement('div');
@@ -127,7 +139,9 @@ const highlightMatch = (text, query) => {
 };
 
 const autocompleteInput = (e) => {
-    const autocompleteList = document.getElementById('autocomplete-list');
+    const isResultsPage = activeSearchInput && activeSearchInput.id === 'search-bar-results';
+    const listId = isResultsPage ? 'autocomplete-list-results' : 'autocomplete-list';
+    const autocompleteList = document.getElementById(listId);
     if (!autocompleteList) return;
     
     const items = autocompleteList.querySelectorAll('div');
@@ -198,10 +212,11 @@ const submitSearch = (query) => {
 };
 
 const hideAutocomplete = () => {
-    const existingList = document.getElementById('autocomplete-list');
-    if (existingList) {
-        existingList.remove();
-    }
+    // Remove both possible autocomplete lists
+    const homeList = document.getElementById('autocomplete-list');
+    const resultsList = document.getElementById('autocomplete-list-results');
+    if (homeList) homeList.remove();
+    if (resultsList) resultsList.remove();
     
     const autocompleteContainer = document.querySelector('.autocomplete');
     if (autocompleteContainer) {

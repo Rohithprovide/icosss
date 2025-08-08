@@ -180,3 +180,80 @@ body {
 .mic-icon:hover {
     color: #6b7280;
 }
+
+/* ========================================
+   SEARCH RESULTS PAGE AUTOCOMPLETE STYLES
+   ======================================== */
+
+/* Autocomplete dropdown for search results page */
+#autocomplete-list-results {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    z-index: 1000;
+    border: 1px solid #dadce0;
+    border-top: none;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+    background-color: #fff;
+    max-height: 400px;
+    overflow-y: auto;
+    margin: 0;
+    width: 100%;
+    max-width: 650px;
+    box-sizing: border-box;
+}
+
+/* Suggestion items for search results page */
+#autocomplete-list-results div {
+    background-color: #fff;
+    border-bottom: 1px solid #f1f3f4;
+    padding: 10px 45px;
+    font-size: 16px;
+    color: #202124;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    text-align: left;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+#autocomplete-list-results div:hover,
+#autocomplete-list-results div.autocomplete-active {
+    background-color: #f8f9fa;
+}
+
+#autocomplete-list-results div:last-child {
+    border-bottom: none;
+}
+
+/* Connected styling when suggestions are active for search results page */
+.autocomplete.has-suggestions .results-search {
+    border-radius: 24px 24px 0 0;
+    border-bottom: 1px solid #dadce0;
+    box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+    position: relative;
+    z-index: 999;
+}
+
+/* Bold matching text for search results page */
+#autocomplete-list-results div strong {
+    font-weight: bold;
+    color: #202124;
+}
+
+/* Autocomplete icons for search results page */
+#autocomplete-list-results .autocomplete-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+    font-size: 16px;
+}
