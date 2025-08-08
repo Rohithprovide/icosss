@@ -99,31 +99,81 @@
             });
             
             function fetchSuggestions(query) {
-                // Use JSONP for DuckDuckGo API
+                // Use fetch with CORS for DuckDuckGo API
+                fetch(`https://duckduckgo.com/ac/?q=${encodeURIComponent(query)}&type=list`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(text => {
+                        try {
+                            // DuckDuckGo returns JSONP, we need to extract the JSON
+                            const jsonMatch = text.match(/\[(.*?)\]/s);
+                            if (jsonMatch) {
+                                const data = JSON.parse('[' + jsonMatch[1] + ']');
+                                showSuggestions(data[1] || []);
+                            }
+                        } catch (e) {
+                            console.log('Parse error:', e);
+                            // Fallback: try direct JSON parse
+                            try {
+                                const data = JSON.parse(text);
+                                showSuggestions(data[1] || []);
+                            } catch (e2) {
+                                console.log('Fallback parse error:', e2);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.log('Fetch error:', error);
+                        // Fallback to JSONP method
+                        fetchWithJSONP(query);
+                    });
+            }
+            
+            function fetchWithJSONP(query) {
                 const script = document.createElement('script');
                 const callbackName = 'autocompleteCallback_' + Date.now();
                 
                 window[callbackName] = function(data) {
                     showSuggestions(data[1] || []);
-                    document.head.removeChild(script);
+                    try {
+                        document.head.removeChild(script);
+                    } catch(e) {}
                     delete window[callbackName];
                 };
                 
-                script.src = `https://duckduckgo.com/ac/?type=list&q=${encodeURIComponent(query)}&callback=${callbackName}`;
+                script.src = `https://duckduckgo.com/ac/?q=${encodeURIComponent(query)}&type=list&callback=${callbackName}`;
                 document.head.appendChild(script);
                 
                 // Cleanup on error
                 script.onerror = function() {
-                    document.head.removeChild(script);
+                    try {
+                        document.head.removeChild(script);
+                    } catch(e) {}
                     delete window[callbackName];
                 };
+                
+                // Timeout cleanup
+                setTimeout(() => {
+                    if (window[callbackName]) {
+                        try {
+                            document.head.removeChild(script);
+                        } catch(e) {}
+                        delete window[callbackName];
+                    }
+                }, 10000);
             }
             
             function showSuggestions(suggestions) {
+                console.log('Showing suggestions:', suggestions);
                 dropdown.innerHTML = '';
                 currentFocus = -1;
                 
-                if (suggestions.length === 0) {
+                if (!suggestions || suggestions.length === 0) {
+                    console.log('No suggestions to show');
                     hideDropdown();
                     return;
                 }
@@ -142,6 +192,7 @@
                 
                 searchContainer.classList.add('has-suggestions');
                 dropdown.classList.add('show');
+                console.log('Dropdown should be visible now');
             }
             
             function hideDropdown() {
