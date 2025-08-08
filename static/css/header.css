@@ -52,7 +52,7 @@
     align-items: center;
     justify-content: center;
     margin-top: -20px;
-    margin-left: 25px;
+    margin-left: 20px;
 }
 
 .header-logo h1 {
@@ -74,7 +74,7 @@
     flex: 0 0 auto;
     width: 650px;
     margin: 0;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .header-search-container {
