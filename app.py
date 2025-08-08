@@ -114,6 +114,26 @@ def autocomplete():
         app.logger.error(f"Autocomplete error: {e}")
         return jsonify([q, []])
 
+@app.route('/debug-search')
+def debug_search():
+    """Debug endpoint to test Google search response."""
+    # Enable debug for this endpoint in development
+    # if not app.debug:
+    #     return "Debug mode only", 403
+    
+    query = request.args.get('q', 'test')
+    search_results = search_engine.search(query, num_results=5)
+    
+    return f"""
+    <h1>Debug Search Results</h1>
+    <p>Query: {query}</p>
+    <pre>{search_results}</pre>
+    <hr>
+    <a href="/debug-search?q=python">Test with 'python'</a> |
+    <a href="/debug-search?q=hello">Test with 'hello'</a> |
+    <a href="/">Back to search</a>
+    """
+
 # Initialize database tables if database is configured
 if database_url:
     with app.app_context():

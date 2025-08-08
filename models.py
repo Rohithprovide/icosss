@@ -17,5 +17,10 @@ class SearchQuery(db.Model):
     user_agent = db.Column(db.String(500))
     ip_address = db.Column(db.String(45))  # IPv6 compatible
     
+    def __init__(self, query=None, user_agent=None, ip_address=None):
+        self.query = query
+        self.user_agent = user_agent
+        self.ip_address = ip_address
+    
     def __repr__(self):
         return f'<SearchQuery {self.query}>'
