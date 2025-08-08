@@ -6,15 +6,21 @@
 }
 
 .search-logo a {
-    text-decoration: none;
+    text-decoration: none !important;
+    color: black !important;
+}
+
+.search-logo a:hover {
+    color: black !important;
+    text-decoration: none !important;
 }
 
 .search-logo h1 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 80px;
+    font-family: 'Dancing Script', cursive !important;
+    font-size: 80px !important;
     margin: 0;
     line-height: 1;
-    color: black;
+    color: black !important;
     font-weight: 700;
 }
 
