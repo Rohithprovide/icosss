@@ -3,30 +3,39 @@
 {% block title %}{{ query }} - icos search{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-12 text-center">
-        <!-- Logo (smaller on search results) -->
-        <div class="search-logo">
-            <a href="{{ url_for('index') }}">
-                <h1>icos</h1>
-            </a>
-        </div>
-        
-        <!-- Search Form -->
-        <form method="GET" action="{{ url_for('search') }}" id="search-form" class="mb-4">
-            <div class="autocomplete">
-                <div class="search-container search-results-container position-relative">
-                    <i class="fa-solid fa-magnifying-glass search-icon position-absolute"></i>
-                    <input type="text" name="q" value="{{ query }}" class="home-search" placeholder="" autocomplete="off" id="search-bar">
-                    <i class="fa-solid fa-microphone mic-icon position-absolute"></i>
-                </div>
-                <!-- Autocomplete list will be dynamically inserted here -->
+<!-- Search Header -->
+<header class="search-header">
+    <div class="header-container">
+        <div class="header-content">
+            <!-- Logo in header -->
+            <div class="header-logo">
+                <a href="{{ url_for('index') }}">
+                    <h1>icos</h1>
+                </a>
             </div>
-        </form>
+            
+            <!-- Search Form in header -->
+            <form method="GET" action="{{ url_for('search') }}" id="search-form" class="header-search-form">
+                <div class="autocomplete">
+                    <div class="search-container header-search-container">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" name="q" value="{{ query }}" class="home-search" placeholder="" autocomplete="off" id="search-bar">
+                        <i class="fa-solid fa-microphone mic-icon"></i>
+                    </div>
+                    <!-- Autocomplete list will be dynamically inserted here -->
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
+
+<div class="row justify-content-center">
+    <div class="col-12">
         
         <!-- Search Results -->
         <div class="container search-results-content">

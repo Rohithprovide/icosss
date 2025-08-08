@@ -1,33 +1,4 @@
-/* Search Results Page Specific Styles */
-
-/* Logo styling for search results page */
-.search-logo {
-    margin-bottom: 20px;
-}
-
-.search-logo a {
-    text-decoration: none !important;
-    color: black !important;
-}
-
-.search-logo a:hover {
-    color: black !important;
-    text-decoration: none !important;
-}
-
-.search-logo h1 {
-    font-family: 'Dancing Script', cursive !important;
-    font-size: 80px !important;
-    margin: 0;
-    line-height: 1;
-    color: black !important;
-    font-weight: 700;
-}
-
-/* Search container on results page */
-.search-results-container {
-    max-width: 500px;
-}
+/* Search Results Page Content Styles */
 
 /* Search results content */
 .search-results-content {
