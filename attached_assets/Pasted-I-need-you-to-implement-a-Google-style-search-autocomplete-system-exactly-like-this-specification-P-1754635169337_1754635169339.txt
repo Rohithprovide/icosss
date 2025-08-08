@@ -1,0 +1,147 @@
+I need you to implement a Google-style search autocomplete system exactly like this specification. Please create all the necessary files and functionality:
+
+Backend Implementation (Python/Flask)
+Create an autocomplete endpoint that:
+
+Accepts POST requests to /autocomplete
+Gets query parameter q from request
+Makes requests to DuckDuckGo's autocomplete API: https://duckduckgo.com/ac/?type=list&
+Returns JSON in format: [query, [suggestion1, suggestion2, ...]]
+Backend Code Pattern:
+
+@app.route('/autocomplete', methods=['POST'])
+def autocomplete():
+    q = request.form.get('q') or request.get_json().get('q')
+    if not q:
+        return jsonify(['', []])
+    
+    # Make request to DuckDuckGo API
+    response = requests.get('https://duckduckgo.com/ac/', params={'q': q, 'type': 'list'})
+    suggestions = response.json() if response.status_code == 200 else ['', []]
+    
+    return jsonify([q, suggestions[1] if len(suggestions) > 1 else []])
+Frontend JavaScript Implementation
+Create autocomplete.js with these exact features:
+
+Core Functionality:
+
+Real-time AJAX requests as user types
+Keyboard navigation (arrow keys up/down, enter to select)
+Mouse click selection
+Auto-highlight matching text portions
+Connected visual styling when active
+Auto-hide when clicking outside
+Key Requirements:
+
+Input Detection: Listen for input on search field
+AJAX Requests: POST to /autocomplete with query
+Response Handling: Parse JSON format [query, [suggestions]]
+Dropdown Creation: Dynamic div creation for suggestions
+Keyboard Navigation: Up/down arrows, enter key, escape
+Visual Feedback: Highlight active suggestion, bold matching text
+Connected Styling: Modify search bar border-radius when active
+Click Handling: Select suggestion on click, hide on outside click
+JavaScript Structure:
+
+let searchInput, currentFocus, originalSearch, autocompleteResults;
+const handleUserInput = () => {
+    // AJAX POST to /autocomplete
+    // Update autocompleteResults array
+    // Call updateAutocompleteList()
+};
+const updateAutocompleteList = () => {
+    // Create/update suggestion divs
+    // Apply connected styling to search bar
+    // Handle empty state
+};
+const autocompleteInput = (e) => {
+    // Handle keyboard navigation (arrows, enter)
+};
+CSS Styling Requirements
+Implement these exact styles for Google-like appearance:
+
+Search Input Styling:
+
+.home-search {
+    background: white;
+    border: 1px solid #dadce0;
+    border-radius: 24px;
+    box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+    padding: 10px 50px 10px 45px;
+    font-size: 16px;
+    outline: none;
+    width: 580px;
+}
+Autocomplete Container:
+
+.autocomplete {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+#autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border: 1px solid #dfe1e5;
+    border-top: none;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+    background-color: #fff;
+    max-height: 400px;
+    overflow-y: auto;
+}
+Suggestion Items:
+
+#autocomplete-list div {
+    background-color: #fff;
+    border-bottom: 1px solid #f1f3f4;
+    padding: 10px 16px;
+    font-size: 15px;
+    color: #202124;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#autocomplete-list div:hover,
+#autocomplete-list div.autocomplete-active {
+    background-color: #f8f9fa;
+}
+Connected Styling (Active State):
+
+.autocomplete.has-suggestions .home-search,
+.autocomplete:has(#autocomplete-list:not(:empty)) .home-search {
+    border-radius: 24px 24px 0 0;
+    border-bottom: none;
+    box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+}
+HTML Structure
+<div class="autocomplete">
+    <input type="text" id="search-bar" class="home-search" autocomplete="off">
+    <!-- Autocomplete list will be dynamically inserted here -->
+</div>
+<script src="autocomplete.js"></script>
+Specific Implementation Details
+Bold Matching Text: Use <strong> tags around matching portion
+Seamless Connection: Remove search bar bottom border when suggestions shown
+Privacy-Focused: Use DuckDuckGo API (no tracking)
+Responsive Design: Mobile-friendly with touch support
+Performance: Debounce requests to avoid spam
+Accessibility: Proper ARIA labels and keyboard navigation
+Requirements Summary
+✅ Real-time suggestions as user types
+✅ Google-style visual design with rounded corners
+✅ Seamless visual connection between search bar and dropdown
+✅ Keyboard navigation (arrows, enter, escape)
+✅ Mouse click support
+✅ Privacy-focused using DuckDuckGo API
+✅ Mobile responsive
+✅ Smooth animations and transitions
+✅ Auto-hide on outside click
+✅ Bold highlighting of matching text
+
+Please implement this exact functionality with all the visual polish and user experience features described above.
