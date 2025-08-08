@@ -21,10 +21,11 @@
             
             <!-- Search Form in header -->
             <form method="GET" action="{{ url_for('search') }}" id="search-form" class="header-search-form">
+                {{ search_form.hidden_tag() }}
                 <div class="autocomplete">
                     <div class="search-container header-search-container">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" name="q" value="{{ query }}" class="home-search" placeholder="" autocomplete="off" id="search-bar">
+                        {{ search_form.q(placeholder="", autocomplete="off", id="search-bar-results") }}
                         <i class="fa-solid fa-microphone mic-icon"></i>
                     </div>
                     <!-- Autocomplete list will be dynamically inserted here -->

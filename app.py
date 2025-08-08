@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
-from forms import UserDataForm
+from forms import UserDataForm, SearchResultsForm
 
 # Configure logging for debugging
 logging.basicConfig(level=logging.DEBUG)
@@ -29,9 +29,13 @@ def search():
     # Log the search query
     app.logger.info(f"Search query: {query}")
     
+    # Create the search results form for the header search bar
+    search_form = SearchResultsForm()
+    search_form.q.data = query  # Pre-populate with current query
+    
     # For now, we'll just display the search results page
     # You can add actual search logic here later
-    return render_template('search_results.html', query=query)
+    return render_template('search_results.html', query=query, search_form=search_form)
 
 @app.route('/autocomplete', methods=['POST'])
 def autocomplete():

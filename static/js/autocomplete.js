@@ -1,17 +1,32 @@
-let searchInput, currentFocus, originalSearch, autocompleteResults;
+let searchInputs = [];
+let currentFocus = -1;
+let originalSearch = '';
+let autocompleteResults = [];
 let debounceTimeout;
+let activeSearchInput = null;
 
 document.addEventListener('DOMContentLoaded', function() {
-    searchInput = document.getElementById('search-bar');
+    // Support both search bars
+    const homeSearchBar = document.getElementById('search-bar');
+    const resultsSearchBar = document.getElementById('search-bar-results');
+    
+    if (homeSearchBar) {
+        searchInputs.push(homeSearchBar);
+        homeSearchBar.addEventListener('input', () => handleUserInput(homeSearchBar));
+        homeSearchBar.addEventListener('keydown', autocompleteInput);
+        homeSearchBar.addEventListener('focus', () => { activeSearchInput = homeSearchBar; });
+    }
+    
+    if (resultsSearchBar) {
+        searchInputs.push(resultsSearchBar);
+        resultsSearchBar.addEventListener('input', () => handleUserInput(resultsSearchBar));
+        resultsSearchBar.addEventListener('keydown', autocompleteInput);
+        resultsSearchBar.addEventListener('focus', () => { activeSearchInput = resultsSearchBar; });
+    }
+    
     currentFocus = -1;
     originalSearch = '';
     autocompleteResults = [];
-
-    if (!searchInput) return;
-
-    // Add event listeners
-    searchInput.addEventListener('input', handleUserInput);
-    searchInput.addEventListener('keydown', autocompleteInput);
     
     // Hide autocomplete when clicking outside
     document.addEventListener('click', function(e) {
@@ -21,8 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-const handleUserInput = () => {
-    const query = searchInput.value.trim();
+const handleUserInput = (inputElement) => {
+    activeSearchInput = inputElement;
+    const query = inputElement.value.trim();
     
     // Clear existing timeout
     clearTimeout(debounceTimeout);
@@ -92,9 +108,11 @@ const updateAutocompleteList = () => {
         autocompleteList.appendChild(suggestionDiv);
     });
     
-    // Add to autocomplete container
-    const autocompleteContainer = document.querySelector('.autocomplete');
-    autocompleteContainer.appendChild(autocompleteList);
+    // Add to autocomplete container (find the one containing the active search input)
+    const autocompleteContainer = activeSearchInput ? activeSearchInput.closest('.autocomplete') : document.querySelector('.autocomplete');
+    if (autocompleteContainer) {
+        autocompleteContainer.appendChild(autocompleteList);
+    }
     
     // Apply connected styling
     autocompleteContainer.classList.add('has-suggestions');
@@ -141,11 +159,11 @@ const autocompleteInput = (e) => {
         } else {
             // No autocomplete item selected, submit current search
             e.preventDefault();
-            submitSearch(searchInput.value.trim());
+            submitSearch(activeSearchInput ? activeSearchInput.value.trim() : '');
         }
     } else if (e.key === 'Escape') {
         hideAutocomplete();
-        searchInput.blur();
+        if (activeSearchInput) activeSearchInput.blur();
     }
 };
 
@@ -166,9 +184,11 @@ const setActiveItem = (items) => {
 };
 
 const selectSuggestion = (suggestion) => {
-    searchInput.value = suggestion;
-    hideAutocomplete();
-    searchInput.focus();
+    if (activeSearchInput) {
+        activeSearchInput.value = suggestion;
+        hideAutocomplete();
+        activeSearchInput.focus();
+    }
 };
 
 const submitSearch = (query) => {
@@ -178,9 +198,9 @@ const submitSearch = (query) => {
     
     // Submit the form
     const form = document.getElementById('search-form');
-    if (form) {
+    if (form && activeSearchInput) {
         // Set the search input value
-        searchInput.value = query.trim();
+        activeSearchInput.value = query.trim();
         form.submit();
     }
 };
