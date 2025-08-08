@@ -73,6 +73,9 @@ body {
     text-overflow: ellipsis;
     position: relative;
     text-align: left;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
 }
 
 #autocomplete-list div:hover,
@@ -97,6 +100,17 @@ body {
 #autocomplete-list div strong {
     font-weight: bold;
     color: #202124;
+}
+
+/* Autocomplete icons */
+.autocomplete-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+    font-size: 16px;
 }
 
 .search-icon {

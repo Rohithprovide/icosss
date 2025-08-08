@@ -80,7 +80,7 @@ const updateAutocompleteList = () => {
     
     autocompleteResults.forEach((suggestion, index) => {
         const suggestionDiv = document.createElement('div');
-        suggestionDiv.innerHTML = highlightMatch(suggestion, originalSearch);
+        suggestionDiv.innerHTML = `<i class="fas fa-magnifying-glass autocomplete-icon"></i>${highlightMatch(suggestion, originalSearch)}`;
         suggestionDiv.setAttribute('data-suggestion', suggestion);
         
         // Add click event
