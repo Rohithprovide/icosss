@@ -74,7 +74,7 @@
     flex: 0 0 auto;
     width: 650px;
     margin: 0;
-    margin-top: 15px;
+    margin-top: 12px;
 }
 
 .header-search-container {
@@ -90,7 +90,7 @@
     line-height: 42px;
     border-radius: 24px !important;
     border-bottom: none !important;
-    padding-right: 50px !important;
+    padding-right: 40px !important;
     background: white !important;
     padding-left: 45px !important;
     text-decoration: none !important;
@@ -107,7 +107,7 @@
 }
 
 .header-search-container .clear-icon {
-    right: 18px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     color: #9ca3af;
