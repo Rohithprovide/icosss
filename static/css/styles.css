@@ -25,7 +25,8 @@ body {
     padding: 10px 50px 10px 45px;
     font-size: 16px;
     outline: none;
-    width: 580px;
+    width: 100%;
+    max-width: 580px;
     height: 50px;
     transition: all 0.2s ease;
     resize: none;
@@ -42,7 +43,6 @@ body {
     position: absolute;
     top: calc(100% - 1px);
     left: 0;
-    right: 0;
     z-index: 1000;
     border: 1px solid #dadce0;
     border-top: none;
@@ -53,6 +53,7 @@ body {
     overflow-y: auto;
     margin: 0;
     width: 100%;
+    max-width: 580px;
     box-sizing: border-box;
 }
 
@@ -61,7 +62,7 @@ body {
     background-color: #fff;
     border-bottom: 1px solid #f1f3f4;
     padding: 10px 45px;
-    font-size: 15px;
+    font-size: 16px;
     color: #202124;
     cursor: pointer;
     transition: background-color 0.1s ease;
@@ -69,6 +70,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     position: relative;
+    text-align: left;
 }
 
 #autocomplete-list div:hover,
@@ -86,7 +88,7 @@ body {
     border-bottom: 1px solid #dadce0;
     box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
     position: relative;
-    z-index: 1001;
+    z-index: 999;
 }
 
 /* Bold matching text */
@@ -100,7 +102,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: #9ca3af;
-    z-index: 10;
+    z-index: 1002;
     pointer-events: none;
 }
 
@@ -109,7 +111,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: #9ca3af;
-    z-index: 10;
+    z-index: 1002;
     cursor: pointer;
 }
 
