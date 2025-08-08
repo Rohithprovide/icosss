@@ -127,9 +127,51 @@
     color: #6b7280;
 }
 
+/* Header Navigation Tabs */
+.header-tabs-container {
+    width: 606px;
+    height: 48px;
+    padding-left: 165px;
+    background: white;
+}
+
+.header-tabs {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    border-bottom: 1px solid #dadce0;
+}
+
+.header-tab {
+    width: 46px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #70757a;
+    font-size: 13px;
+    font-family: arial, sans-serif;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    padding: 0 12px;
+    min-width: 46px;
+}
+
+.header-tab:hover {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.header-tab.active {
+    color: #1a73e8;
+    border-bottom: 3px solid #1a73e8;
+}
+
 /* Body adjustment for fixed header */
 body {
-    padding-top: 110px;
+    padding-top: 158px;
 }
 
 /* Responsive design */
