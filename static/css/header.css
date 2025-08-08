@@ -26,8 +26,8 @@
     flex-wrap: nowrap;
     height: 100%;
     padding: 15px;
-    gap: 60px;
-    padding-top: 15px;
+    gap: 50px;
+    padding-top: 25px;
 }
 
 /* Logo in header */
@@ -52,7 +52,7 @@
     align-items: center;
     justify-content: center;
     margin-top: -20px;
-    margin-left: 10px;
+    margin-left: 25px;
 }
 
 .header-logo h1 {
@@ -74,7 +74,7 @@
     flex: 0 0 auto;
     width: 650px;
     margin: 0;
-    margin-top: 12px;
+    margin-top: 20px;
 }
 
 .header-search-container {
