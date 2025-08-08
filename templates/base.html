@@ -16,6 +16,9 @@
     
     <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    
+    <!-- Page-specific CSS -->
+    {% block extra_css %}{% endblock %}
 </head>
 <body class="d-flex align-items-center justify-content-center min-vh-100">
     <!-- Flash Messages -->

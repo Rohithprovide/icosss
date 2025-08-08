@@ -2,20 +2,24 @@
 
 {% block title %}{{ query }} - icos search{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-12 text-center">
         <!-- Logo (smaller on search results) -->
-        <div style="margin-bottom: 20px;">
-            <a href="{{ url_for('index') }}" style="text-decoration: none;">
-                <h1 style="font-family: 'Dancing Script', cursive; font-size: 80px; margin: 0; line-height: 1; color: black; font-weight: 700;">icos</h1>
+        <div class="search-logo">
+            <a href="{{ url_for('index') }}">
+                <h1>icos</h1>
             </a>
         </div>
         
         <!-- Search Form -->
         <form method="GET" action="{{ url_for('search') }}" id="search-form" class="mb-4">
             <div class="autocomplete">
-                <div class="search-container position-relative" style="max-width: 500px;">
+                <div class="search-container search-results-container position-relative">
                     <i class="fa-solid fa-magnifying-glass search-icon position-absolute"></i>
                     <input type="text" name="q" value="{{ query }}" class="home-search" placeholder="" autocomplete="off" id="search-bar">
                     <i class="fa-solid fa-microphone mic-icon position-absolute"></i>
@@ -25,20 +29,20 @@
         </form>
         
         <!-- Search Results -->
-        <div class="container mt-5">
+        <div class="container search-results-content">
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="text-start">
-                        <p class="text-muted mb-4">Showing results for: <strong>{{ query }}</strong></p>
+                        <p class="search-query-display">Showing results for: <strong>{{ query }}</strong></p>
                         
                         <!-- Sample search results - replace with actual search logic -->
-                        <div class="search-result mb-4">
-                            <h5><a href="#" class="text-primary">Search functionality coming soon...</a></h5>
+                        <div class="search-result">
+                            <h5><a href="#">Search functionality coming soon...</a></h5>
                             <p class="text-muted">Your search for "{{ query }}" has been received. This is where search results would be displayed.</p>
                             <p class="text-success small">Search functionality is ready to be implemented with your preferred search engine or database.</p>
                         </div>
                         
-                        <div class="mt-4">
+                        <div class="search-actions">
                             <a href="{{ url_for('index') }}" class="btn btn-outline-primary">← New Search</a>
                         </div>
                     </div>

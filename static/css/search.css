@@ -1,0 +1,77 @@
+/* Search Results Page Specific Styles */
+
+/* Logo styling for search results page */
+.search-logo {
+    margin-bottom: 20px;
+}
+
+.search-logo a {
+    text-decoration: none;
+}
+
+.search-logo h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 80px;
+    margin: 0;
+    line-height: 1;
+    color: black;
+    font-weight: 700;
+}
+
+/* Search container on results page */
+.search-results-container {
+    max-width: 500px;
+}
+
+/* Search results content */
+.search-results-content {
+    margin-top: 3rem;
+}
+
+.search-query-display {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+.search-result {
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.search-result:last-child {
+    border-bottom: none;
+}
+
+.search-result h5 {
+    margin-bottom: 0.5rem;
+}
+
+.search-result h5 a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.search-result h5 a:hover {
+    text-decoration: underline;
+}
+
+.search-result p {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.search-actions {
+    margin-top: 2rem;
+}
+
+/* Responsive adjustments for search page */
+@media (max-width: 768px) {
+    .search-logo h1 {
+        font-size: 60px;
+    }
+    
+    .search-results-container {
+        max-width: 100%;
+    }
+}
