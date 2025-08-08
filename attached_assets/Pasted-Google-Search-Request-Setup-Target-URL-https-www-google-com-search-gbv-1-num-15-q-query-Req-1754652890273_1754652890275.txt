@@ -1,0 +1,77 @@
+Google Search Request Setup
+Target URL: https://www.google.com/search?gbv=1&num=15&q={query}
+
+Required Headers:
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0',
+    'Accept-Language': 'en;q=1.0'
+}
+cookies = {
+    'CONSENT': 'PENDING+987',
+    'SOCS': 'CAESHAgBEhIaAB'
+}
+Parameters:
+
+gbv=1 - Forces Google Basic View (clean HTML without heavy JavaScript)
+num=15 - Results per page (use 15 for All/Videos/News tabs, 100 for Images)
+Query should be URL-encoded
+2. Ad Detection & Removal Algorithm
+Multi-language Ad Keywords (remove any element containing these):
+
+AD_KEYWORDS = [
+    'ad', 'ads', 'anuncio', 'annuncio', 'annonce', 'Anzeige', '广告', '廣告',
+    'Reklama', 'Реклама', 'Anunț', '광고', 'annons', 'Annonse', 'Iklan',
+    '広告', 'Augl.', 'Mainos', 'Advertentie', 'إعلان', 'Գովազդ', 'विज्ञापन',
+    'Reklam', 'آگهی', 'Reklāma', 'Reklaam', 'Διαφήμιση', 'מודעה', 'Hirdetés',
+    'Anúncio', 'Quảng cáo', 'โฆษณา', 'sponsored', 'patrocinado', 'gesponsert',
+    'Sponzorováno', '스폰서', 'Gesponsord', 'Sponsorisé'
+]
+def has_ad_content(text):
+    clean_text = ''.join(filter(str.isalpha, text))
+    return (clean_text.upper() in [k.upper() for k in AD_KEYWORDS] or 'ⓘ' in text)
+3. HTML Content Filtering (use BeautifulSoup)
+Remove these specific elements:
+
+Ad containers: Any <div> or <span> containing ad keywords or the ⓘ symbol
+Google branding: Images with src containing 'googlelogo' or 'google.com/images/branding'
+Footer elements: Divs with text containing 'privacy', 'terms', 'mumbai', 'maharashtra' (under 200 chars)
+Image sections: Divs with class 'ezO2md' containing 'Images' and 'View all' text
+All JavaScript: Every <script> tag must be completely removed
+Privacy/Terms links: Links with text containing 'privacy' or 'terms' in small containers
+Filtering code pattern:
+
+# Remove ads
+for div in soup.find_all('div', recursive=True):
+    ad_spans = [span for span in div.find_all('span', recursive=True) 
+                if has_ad_content(span.text)]
+    if ad_spans:
+        div.decompose()  # Completely removes the element
+# Remove all scripts
+for script in soup.find_all('script'):
+    script.decompose()
+# Remove Google logos
+for img in soup.find_all('img', src=lambda x: x and 'googlelogo' in x):
+    img.decompose()
+4. Results Display Format
+Extract and display only:
+
+Title: From <h3> tags in search results
+URL: Clean URLs without Google redirect tracking
+Description/Snippet: Text content from result descriptions
+No JavaScript, no tracking pixels, no ads
+5. Error Handling Requirements
+CAPTCHA detection: Check for 'form id="captcha-form"' in response
+Rate limiting: Implement retry logic with exponential backoff
+Network timeouts: Handle connection errors gracefully
+Invalid queries: Validate and sanitize search input
+6. Privacy Features to Implement
+No user tracking: Don't store search queries or user data
+Proxy external resources: Route CSS/images through your server
+Remove tracking parameters: Strip utm_, ref_src, and similar tracking params
+Alternative site redirects: Optionally redirect Twitter→Nitter, YouTube→Invidious, etc.
+7. Additional Technical Details
+Results per page: 15 for most tabs, 100 for images
+Language support: Handle international search interfaces
+Mobile detection: Adjust user agent for mobile vs desktop
+Clean URLs: Remove Google's redirect tracking from result links

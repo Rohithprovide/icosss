@@ -51,4 +51,47 @@
     .search-results-container {
         max-width: 100%;
     }
+
+/* Enhanced search results styling */
+.search-info {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.result-url {
+    color: #198754 !important;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.result-title {
+    margin: 0.25rem 0 0.5rem 0;
+    font-size: 1.125rem;
+    line-height: 1.3;
+}
+
+.result-title a {
+    color: #1a0dab;
+    text-decoration: none;
+}
+
+.result-title a:hover {
+    text-decoration: underline;
+}
+
+.result-title a:visited {
+    color: #681da8;
+}
+
+.result-description {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+    color: #4d5156 !important;
+}
+
+.no-results {
+    color: #6c757d;
+}
 }

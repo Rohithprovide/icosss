@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
 from forms import UserDataForm, SearchResultsForm
+from search_engine import GoogleSearchEngine
 
 # Configure logging for debugging
 logging.basicConfig(level=logging.DEBUG)
@@ -21,6 +22,9 @@ db = SQLAlchemy(model_class=Base)
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-change-in-production")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)  # needed for url_for to generate with https
+
+# Initialize the search engine
+search_engine = GoogleSearchEngine()
 
 # configure the database, relative to the app instance folder
 database_url = os.environ.get("DATABASE_URL")
@@ -51,13 +55,42 @@ def search():
     # Log the search query
     app.logger.info(f"Search query: {query}")
     
+    # Store search query in database if configured
+    if database_url:
+        try:
+            from models import SearchQuery
+            search_record = SearchQuery(
+                query=query,
+                user_agent=request.headers.get('User-Agent', ''),
+                ip_address=request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+            )
+            db.session.add(search_record)
+            db.session.commit()
+        except Exception as e:
+            app.logger.warning(f"Failed to store search query: {e}")
+    
+    # Perform Google search
+    search_results = search_engine.search(query, num_results=15)
+    
     # Create the search results form for the header search bar
     search_form = SearchResultsForm()
     search_form.q.data = query  # Pre-populate with current query
     
-    # For now, we'll just display the search results page
-    # You can add actual search logic here later
-    return render_template('search_results.html', query=query, search_form=search_form)
+    # Handle search errors
+    if 'error' in search_results:
+        flash(f"Search error: {search_results['error']}", 'warning')
+        return render_template('search_results.html', 
+                             query=query, 
+                             search_form=search_form, 
+                             results=[], 
+                             error=search_results['error'])
+    
+    # Display search results
+    return render_template('search_results.html', 
+                         query=query, 
+                         search_form=search_form, 
+                         results=search_results.get('results', []),
+                         total_results=search_results.get('total_results', 0))
 
 @app.route('/autocomplete', methods=['POST'])
 def autocomplete():
