@@ -15,10 +15,13 @@
             {{ form.hidden_tag() }}
             
             <div class="mb-4">
-                <div class="search-container position-relative">
-                    <i class="fa-solid fa-magnifying-glass search-icon position-absolute"></i>
-                    {{ form.user_input(class="search-input form-control" + (" is-invalid" if form.user_input.errors else ""), placeholder="") }}
-                    <i class="fa-solid fa-microphone mic-icon position-absolute"></i>
+                <div class="autocomplete">
+                    <div class="search-container position-relative">
+                        <i class="fa-solid fa-magnifying-glass search-icon position-absolute"></i>
+                        {{ form.user_input(class="home-search", placeholder="", autocomplete="off", id="search-bar") }}
+                        <i class="fa-solid fa-microphone mic-icon position-absolute"></i>
+                    </div>
+                    <!-- Autocomplete list will be dynamically inserted here -->
                 </div>
                 {% if form.user_input.errors %}
                     <div class="invalid-feedback d-block mt-2">
@@ -28,7 +31,6 @@
                     </div>
                 {% endif %}
             </div>
-
 
         </form>
     </div>
