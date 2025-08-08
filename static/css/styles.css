@@ -33,6 +33,19 @@ body {
     transition: all 0.2s ease;
     resize: none;
     box-sizing: border-box;
+    position: relative;
+}
+
+.home-search:hover::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, #1a73e8 20%, #1a73e8 80%, transparent 100%);
+    transition: opacity 0.2s ease;
+    pointer-events: none;
 }
 
 .home-search:focus {
