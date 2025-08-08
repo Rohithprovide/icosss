@@ -137,6 +137,7 @@
 .header-tabs {
     display: flex;
     align-items: center;
+    width: 606px;
     height: 48px;
     border-bottom: 1px solid #dadce0;
     gap: 54px;
