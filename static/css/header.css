@@ -69,15 +69,21 @@
 /* Search bar in header */
 .header-search-form {
     flex-grow: 1;
-    max-width: 600px;
-    width: 600px;
+    max-width: 650px;
+    width: 650px;
     margin: 0;
 }
 
 .header-search-container {
     position: relative;
-    width: 100%;
-    max-width: 600px;
+    width: 650px;
+    height: 44px;
+}
+
+.header-search-container .home-search {
+    width: 650px;
+    height: 44px;
+    line-height: 42px;
 }
 
 .header-search-container .search-icon {
