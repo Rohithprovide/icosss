@@ -38,7 +38,7 @@ body {
 
 .home-search:hover {
     background-image: linear-gradient(to right, transparent 0%, transparent 3%, #1a73e8 7%, #1a73e8 93%, transparent 97%, transparent 100%);
-    background-position: center bottom;
+    background-position: center calc(100% + 2px);
     background-size: 100% 1px;
     background-repeat: no-repeat;
     background-color: white;
