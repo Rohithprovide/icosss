@@ -7,6 +7,10 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
 {% endblock %}
 
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/autocomplete-results.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 <!-- Search Header -->
 <header class="search-header">

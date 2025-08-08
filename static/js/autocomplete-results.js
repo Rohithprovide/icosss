@@ -1,19 +1,18 @@
-let searchInputs = [];
 let currentFocus = -1;
 let originalSearch = '';
 let autocompleteResults = [];
 let debounceTimeout;
-let activeSearchInput = null;
+let resultsSearchInput = null;
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Only support homepage search bar
-    const homeSearchBar = document.getElementById('search-bar');
+    // Only handle the results search bar
+    const resultsSearchBar = document.getElementById('search-bar-results');
     
-    if (homeSearchBar) {
-        searchInputs.push(homeSearchBar);
-        homeSearchBar.addEventListener('input', () => handleUserInput(homeSearchBar));
-        homeSearchBar.addEventListener('keydown', autocompleteInput);
-        homeSearchBar.addEventListener('focus', () => { activeSearchInput = homeSearchBar; });
+    if (resultsSearchBar) {
+        resultsSearchInput = resultsSearchBar;
+        resultsSearchBar.addEventListener('input', () => handleUserInput(resultsSearchBar));
+        resultsSearchBar.addEventListener('keydown', autocompleteInput);
+        resultsSearchBar.addEventListener('focus', () => { resultsSearchInput = resultsSearchBar; });
     }
     
     currentFocus = -1;
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 const handleUserInput = (inputElement) => {
-    activeSearchInput = inputElement;
+    resultsSearchInput = inputElement;
     const query = inputElement.value.trim();
     
     // Clear existing timeout
@@ -72,7 +71,7 @@ const fetchSuggestions = async (query) => {
 
 const updateAutocompleteList = () => {
     // Remove existing autocomplete list
-    const existingList = document.getElementById('autocomplete-list');
+    const existingList = document.getElementById('autocomplete-list-results');
     if (existingList) {
         existingList.remove();
     }
@@ -82,9 +81,9 @@ const updateAutocompleteList = () => {
         return;
     }
     
-    // Create new autocomplete list
+    // Create new autocomplete list with results-specific ID
     const autocompleteList = document.createElement('div');
-    autocompleteList.id = 'autocomplete-list';
+    autocompleteList.id = 'autocomplete-list-results';
     
     autocompleteResults.forEach((suggestion, index) => {
         const suggestionDiv = document.createElement('div');
@@ -100,8 +99,8 @@ const updateAutocompleteList = () => {
         autocompleteList.appendChild(suggestionDiv);
     });
     
-    // Add to autocomplete container (find the one containing the active search input)
-    const autocompleteContainer = activeSearchInput ? activeSearchInput.closest('.autocomplete') : document.querySelector('.autocomplete');
+    // Add to autocomplete container for results page
+    const autocompleteContainer = resultsSearchInput ? resultsSearchInput.closest('.autocomplete') : document.querySelector('.autocomplete');
     if (autocompleteContainer) {
         autocompleteContainer.appendChild(autocompleteList);
     }
@@ -127,7 +126,7 @@ const highlightMatch = (text, query) => {
 };
 
 const autocompleteInput = (e) => {
-    const autocompleteList = document.getElementById('autocomplete-list');
+    const autocompleteList = document.getElementById('autocomplete-list-results');
     if (!autocompleteList) return;
     
     const items = autocompleteList.querySelectorAll('div');
@@ -151,11 +150,11 @@ const autocompleteInput = (e) => {
         } else {
             // No autocomplete item selected, submit current search
             e.preventDefault();
-            submitSearch(activeSearchInput ? activeSearchInput.value.trim() : '');
+            submitSearch(resultsSearchInput ? resultsSearchInput.value.trim() : '');
         }
     } else if (e.key === 'Escape') {
         hideAutocomplete();
-        if (activeSearchInput) activeSearchInput.blur();
+        if (resultsSearchInput) resultsSearchInput.blur();
     }
 };
 
@@ -176,10 +175,10 @@ const setActiveItem = (items) => {
 };
 
 const selectSuggestion = (suggestion) => {
-    if (activeSearchInput) {
-        activeSearchInput.value = suggestion;
+    if (resultsSearchInput) {
+        resultsSearchInput.value = suggestion;
         hideAutocomplete();
-        activeSearchInput.focus();
+        resultsSearchInput.focus();
     }
 };
 
@@ -190,15 +189,15 @@ const submitSearch = (query) => {
     
     // Submit the form
     const form = document.getElementById('search-form');
-    if (form && activeSearchInput) {
+    if (form && resultsSearchInput) {
         // Set the search input value
-        activeSearchInput.value = query.trim();
+        resultsSearchInput.value = query.trim();
         form.submit();
     }
 };
 
 const hideAutocomplete = () => {
-    const existingList = document.getElementById('autocomplete-list');
+    const existingList = document.getElementById('autocomplete-list-results');
     if (existingList) {
         existingList.remove();
     }
