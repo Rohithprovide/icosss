@@ -188,7 +188,7 @@ body {
 /* Autocomplete dropdown for search results page */
 #autocomplete-list-results {
     position: absolute;
-    top: 44px;
+    top: 43px;
     left: 0;
     z-index: 1000;
     border: 1px solid #dadce0;
@@ -199,7 +199,7 @@ body {
     max-height: 400px;
     overflow-y: auto;
     margin: 0;
-    width: 100%;
+    width: 650px;
     max-width: 650px;
     box-sizing: border-box;
 }
@@ -234,8 +234,8 @@ body {
 
 /* Connected styling when suggestions are active for search results page */
 .autocomplete.has-suggestions .results-search {
-    border-radius: 24px 24px 0 0;
-    border-bottom: 1px solid #dadce0;
+    border-radius: 24px 24px 0 0 !important;
+    border-bottom: none !important;
     box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
     position: relative;
     z-index: 999;
