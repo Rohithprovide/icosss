@@ -43,6 +43,7 @@ body {
     position: absolute;
     top: calc(100% - 1px);
     left: 0;
+    right: 0;
     z-index: 1000;
     border: 1px solid #dadce0;
     border-top: none;
@@ -52,8 +53,6 @@ body {
     max-height: 400px;
     overflow-y: auto;
     margin: 0;
-    width: 100%;
-    max-width: 580px;
     box-sizing: border-box;
 }
 
