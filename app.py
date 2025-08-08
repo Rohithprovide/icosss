@@ -25,8 +25,8 @@ def index():
         # Flash success message
         flash('Data submitted successfully!', 'success')
         
-        # Redirect to success page with the data
-        return redirect(url_for('success', data=user_data))
+        # Redirect back to index page
+        return redirect(url_for('index'))
     
     # Handle form validation errors
     if form.errors:
@@ -37,11 +37,6 @@ def index():
     
     return render_template('index.html', form=form)
 
-@app.route('/success')
-def success():
-    """Success page showing submitted data."""
-    user_data = request.args.get('data', '')
-    return render_template('success.html', user_data=user_data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
