@@ -36,16 +36,12 @@ body {
     position: relative;
 }
 
-.home-search:hover::before {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent 0%, #1a73e8 20%, #1a73e8 80%, transparent 100%);
-    transition: opacity 0.2s ease;
-    pointer-events: none;
+.home-search:hover {
+    background-image: linear-gradient(to right, transparent 0%, transparent 15%, #1a73e8 20%, #1a73e8 80%, transparent 85%, transparent 100%);
+    background-position: left bottom;
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-color: white;
 }
 
 .home-search:focus {
